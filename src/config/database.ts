@@ -5,17 +5,17 @@ dotenv.config();
 export default {
   test: {
     url: process.env.TEST_DATABASE_URL,
-    synchronize: process.env.TYPEORM_MIGRATION_SYNCHRONIZE,
+    synchronize: process.env.TYPEORM_SYNCHRONIZE,
     logging: process.env.TYPEORM_LOGGING
   },
   development: {
     url: process.env.DEV_DATABASE_URL,
-    synchronize: process.env.TYPEORM_MIGRATION_SYNCHRONIZE,
+    synchronize: process.env.TYPEORM_SYNCHRONIZE,
     logging: process.env.TYPEORM_LOGGING
   },
   production: {
     url: process.env.DATABASE_URL,
-    synchronize: process.env.TYPEORM_MIGRATION_SYNCHRONIZE,
+    synchronize: process.env.TYPEORM_SYNCHRONIZE,
     logging: process.env.TYPEORM_LOGGING
   },
   common: {

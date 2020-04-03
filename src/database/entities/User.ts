@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Post } from './Post';
 import { Comment } from './Comment';
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()

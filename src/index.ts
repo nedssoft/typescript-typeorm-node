@@ -7,6 +7,6 @@ dotenv.config()
 
 const PORT: any = process.env.HTTP_PORT || 4000;
 
-createConnection().then(()=> {
+createConnection(connectionOptions).then(()=> {
     server.listen(PORT,() => { console.log(`Server listening at http://localhost:${PORT}`)});
 });
