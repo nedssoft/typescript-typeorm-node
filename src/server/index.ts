@@ -2,23 +2,16 @@ import { Application, Request, Response,NextFunction } from 'express';
 import * as express from "express";
 import * as dotenv from "dotenv";
 import * as cors from "cors"
-// import routes from "./routes"
+import routes from "../routes"
+import errorHandler from "../middlewares/errors/errorHandler"
 dotenv.config()
 const server: Application = express();
 
 server.use(cors())
 server.use(express.json());
-server.get('/', (req: Request, res: Response): object => {
-   return res.status(200).json({ message: 'Welcome', status:'success', data: []});
-});
 
-server.use((err: Error, req: Request, res: Response, next: NextFunction): any => {
-    if (err) {
-        return res.status(500).json({status: 'error', message: err.message, errors: []})
-    }
-    next()
-});
+server.use(errorHandler);
 
-// server.use((routes))
+server.use((routes))
 
 export default server;
