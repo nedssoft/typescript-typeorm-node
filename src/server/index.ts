@@ -1,10 +1,9 @@
 import { Application, Request, Response,NextFunction } from 'express';
 import * as express from "express";
-import * as dotenv from "dotenv";
-import * as cors from "cors"
-import routes from "../routes"
-import errorHandler from "../middlewares/errors/errorHandler"
-dotenv.config()
+import * as cors from "cors";
+import routes from "../routes";
+import errorHandler from "../middlewares/errors/errorHandler";
+
 const server: Application = express();
 
 server.use(cors())
