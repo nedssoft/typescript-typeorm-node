@@ -1,0 +1,10 @@
+{
+  "name": "typescript-blog",
+  "version": "1.0.0",
+  "description": "An API built with TypeScript and TypeORM",
+  "main": "src/index.ts",
+  "repository": "https://github.com/nedssoft/typescript-blog-api",
+  "author": "Chinedu Orie",
+  "license": "MIT",
+  "private": false
+}
