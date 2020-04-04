@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Post } from './Post';
 import { Comment } from './Comment';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class User {
@@ -55,5 +56,9 @@ export class User {
   toJSON() {
     delete this.password
     return this
+  }
+
+  validatePassword(password: string) {
+    return bcrypt.compare(password, this.password)
   }
 }

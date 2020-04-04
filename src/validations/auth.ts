@@ -28,3 +28,27 @@ export const validateSignUp =  (
     );
   }
 };
+
+export const validateLogin =  (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const schema = Joi.object({
+    email: Joi.string().email().trim(),
+    password: Joi.string().trim().min(6),
+  });
+  const { error, value } = schema.validate(req.body);
+
+  if (!error) {
+    req.body = value;
+    next();
+  } else {
+    return respondWithError(
+      res,
+      HTTP_BAD_REQUEST,
+      'Validation error',
+      error.details,
+    );
+  }
+};
