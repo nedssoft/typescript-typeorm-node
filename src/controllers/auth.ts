@@ -8,23 +8,23 @@ import {
   HTTP_UNAUTHORIZED,
 } from '../helpers/httpStatusCode';
 import { respondWithError, respondWithSuccess } from '../helpers/helpers';
-
+import { generateToken } from '../helpers/jwt'
 export class AuthController {
   static async signUp(req: Request, res: Response) {
     try {
       const { firstName, lastName, password, email } = req.body;
-      const hashedPassword = await bcrypt.hashSync(password, 10);
       const userRepository = getRepository(User);
-
       const user = await userRepository.create({
         firstName,
         lastName,
         email,
-        password: hashedPassword,
+        password
       });
       const created = await userRepository.save(user);
       if (created) {
         respondWithSuccess(res, user, HTTP_CREATED);
+      } else {
+        throw new Error('Failed to create')
       }
     } catch (error) {
       respondWithError(
@@ -44,7 +44,8 @@ export class AuthController {
       const [user] = await userRepository.find({ where: { email } });
 
       if (user && user.validatePassword(password)) {
-        respondWithSuccess(res, user);
+        const token = await generateToken({ id: user.id })
+        respondWithSuccess(res, { user, token});
       } else {
         respondWithError(res, HTTP_UNAUTHORIZED, 'Invalid credentials');
       }

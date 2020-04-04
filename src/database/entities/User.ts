@@ -6,6 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  BeforeInsert
 } from 'typeorm';
 import { Post } from './Post';
 import { Comment } from './Comment';
@@ -61,4 +62,11 @@ export class User {
   validatePassword(password: string) {
     return bcrypt.compare(password, this.password)
   }
+
+  @BeforeInsert()
+  async updatePasswords() {
+    const password =  await bcrypt.hashSync(this.password, 10);
+    this.password = password
+  }
+
 }
