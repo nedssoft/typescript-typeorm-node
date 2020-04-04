@@ -12,6 +12,7 @@ import { Comment } from './Comment';
 
 @Entity()
 export class User {
+ 
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -50,4 +51,9 @@ export class User {
 
   @UpdateDateColumn({ name: 'updatedAt' })
   updatedAt: Date;
+  
+  toJSON() {
+    delete this.password
+    return this
+  }
 }
