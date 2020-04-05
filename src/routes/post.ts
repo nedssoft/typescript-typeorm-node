@@ -9,5 +9,6 @@ router.post('/', isAuthenticated,validatePost,PostController.create)
 router.get('/', PostController.getAllPosts)
 router.patch('/:postId', isAuthenticated, PostController.update)
 router.delete('/:postId', isAuthenticated, PostController.delete) 
+router.get('/:postId', isAuthenticated, PostController.getOnePost) 
 
 export default router;

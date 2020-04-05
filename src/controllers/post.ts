@@ -46,6 +46,21 @@ export class PostController {
     }
   }
 
+  static async getOnePost(req: Request, res: Response) {
+    try {
+      const {postId} = req.params
+      const post = await getRepository(Post).findOne({ where: {id: postId},relations: ['author', 'comments']});
+      respondWithSuccess(res, post);
+    } catch (error) {
+      respondWithError(
+        res,
+        HTTP_INTERNAL_SERVER_ERROR,
+        'Internal Server Error',
+        error,
+      );
+    }
+  }
+
   static async update(req: Request, res: Response) {
     try {
       const postRepository = getRepository(Post);
