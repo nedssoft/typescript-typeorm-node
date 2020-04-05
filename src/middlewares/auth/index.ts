@@ -10,7 +10,7 @@ export const isAuthenticated =  async (req: Request, res: Response, next: NextFu
         const { authorization = ''} = req.headers
         const { id } = await decodeToken(authorization);
         if (id) {
-            const user = getRepository(User).find(id)
+            const user = await getRepository(User).findOne(id);
             req.user = user;
             next()
         } else {

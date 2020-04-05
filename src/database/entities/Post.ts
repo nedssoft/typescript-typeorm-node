@@ -41,6 +41,6 @@ export class Post {
     @UpdateDateColumn({ name: 'updatedAt' })
     updatedAt: Date;
 
-    @Column({ type: 'timestamp'})
+    @Column({ type: 'timestamp', default: null})
     publishedAt: Date;
 }
