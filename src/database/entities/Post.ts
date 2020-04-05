@@ -26,11 +26,11 @@ export class Post {
     @Column({ type: 'text'})
     body: string;
 
-    @ManyToOne(type => User, user => user.posts, {
+    @ManyToOne(type => User, author => author.posts, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
     } )
-    user: User;
+    author: User;
 
     @OneToMany(type => Comment, comment => comment.post)
     comments: Comment[];
