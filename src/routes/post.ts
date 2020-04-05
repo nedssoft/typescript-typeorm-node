@@ -6,5 +6,6 @@ import { validatePost } from '../validations/post';
 const router: Router= new Router();
 
 router.post('/', isAuthenticated,validatePost,PostController.create)
+router.get('/', PostController.getAllPosts)
 
 export default router;
