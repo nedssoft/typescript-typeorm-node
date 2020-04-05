@@ -2,6 +2,7 @@ import { getRepository, getManager } from 'typeorm';
 import { Request, Response } from 'express';
 import { Post } from '../database/entities/Post';
 import { respondWithSuccess, respondWithError } from '../helpers/helpers';
+import { HTTP_NOT_FOUND } from '../helpers/httpStatusCode';
 import {
   HTTP_CREATED,
   HTTP_INTERNAL_SERVER_ERROR,
@@ -55,7 +56,7 @@ export class PostController {
       });
 
       if (!post) {
-        throw new Error('Post not found');
+       return respondWithError(res, HTTP_NOT_FOUND, 'Post Not Found');
       }
       if (post.author.id !== req.user.id) {
         throw new Error('You can not edit your own post');
@@ -66,6 +67,32 @@ export class PostController {
         respondWithSuccess(res, updatedPost);
       } else {
         throw new Error('Failed to update post');
+      }
+    } catch (error) {
+      respondWithError(res, HTTP_INTERNAL_SERVER_ERROR, error.message, error);
+    }
+  }
+
+  static async delete(req: Request, res: Response) {
+    try {
+      const postRepository = getRepository(Post);
+      const { postId = '' } = req.params;
+      const post = await postRepository.findOne({
+        where: { id: postId },
+        relations: ['author'],
+      });
+
+      if (!post) {
+        return respondWithError(res, HTTP_NOT_FOUND, 'Post Not Found');
+      }
+      if (post.author.id !== req.user.id) {
+        throw new Error('You can only delete your own post');
+      }
+      const { affected } = await postRepository.delete(postId);
+      if (affected > 0) {
+        respondWithSuccess(res, [], 200, 'Post Deleted');
+      } else {
+        throw new Error('Failed to delete post');
       }
     } catch (error) {
       respondWithError(res, HTTP_INTERNAL_SERVER_ERROR, error.message, error);
