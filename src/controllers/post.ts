@@ -2,10 +2,10 @@ import { getRepository, getManager } from 'typeorm';
 import { Request, Response } from 'express';
 import { Post } from '../database/entities/Post';
 import { respondWithSuccess, respondWithError } from '../helpers/helpers';
-import { HTTP_NOT_FOUND } from '../helpers/httpStatusCode';
 import {
   HTTP_CREATED,
   HTTP_INTERNAL_SERVER_ERROR,
+  HTTP_NOT_FOUND 
 } from '../helpers/httpStatusCode';
 
 export class PostController {
@@ -50,7 +50,12 @@ export class PostController {
     try {
       const {postId} = req.params
       const post = await getRepository(Post).findOne({ where: {id: postId},relations: ['author', 'comments']});
-      respondWithSuccess(res, post);
+      if (post) {
+        respondWithSuccess(res, post);
+      } else {
+        respondWithError(res, HTTP_NOT_FOUND, 'Post Not Found');
+      }
+      
     } catch (error) {
       respondWithError(
         res,
