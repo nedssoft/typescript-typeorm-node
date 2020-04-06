@@ -1,18 +1,28 @@
-import { createConnection, getManager } from 'typeorm';
+import { createConnection, getManager, Connection } from 'typeorm';
 import * as request from 'supertest'
 import server from '../server'
 import { User } from '../database/entities/User'
 import connectionOptions from '../database/connectionOptions'
 import { HTTP_BAD_REQUEST, HTTP_CREATED,HTTP_OK,HTTP_UNAUTHORIZED } from '../helpers/httpStatusCode';
 
-let connection;
+let connection: Connection;
 beforeAll( async () => { 
-    connection = await createConnection(connectionOptions)
+    try {
+        connection = await createConnection()
+        console.log(connection)
+    } catch (error) {
+        throw error
+    }
+   
 });
 
-afterAll( async () => {
-    await connection.close();
-});
+// afterAll( async () => {
+//     try {
+//         await connection.close();
+//     } catch (error) {
+//         throw error
+//     }
+// });
 
 
 describe('Auth Endpoints', () => { 
