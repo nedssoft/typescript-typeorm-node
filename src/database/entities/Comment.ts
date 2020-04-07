@@ -2,6 +2,7 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
+    Generated,
     CreateDateColumn,
     UpdateDateColumn,
     ManyToOne
@@ -13,6 +14,10 @@ import { Post } from './Post'
 export class Comment {
     @PrimaryGeneratedColumn()
     id: number;
+  
+    @Column()
+    @Generated('uuid')
+    uuid: string;
   
     @Column({ type: 'text'})
     comment: string;

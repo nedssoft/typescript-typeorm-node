@@ -16,8 +16,7 @@ import {
 let connection: Connection;
 let authorizationToken: string;
 beforeAll(async () => {
-  connection = await createConnection();
-  console.log('connection')
+  connection = await createConnection(connectionOptions);
   const newUser = new User();
   newUser.firstName = 'test';
   newUser.lastName = 'test2';
@@ -27,9 +26,9 @@ beforeAll(async () => {
   authorizationToken = await generateToken({ id: user.id });
 });
 
-// afterAll(async () => {
-//   await connection.close();
-// });
+afterAll(async () => {
+  await connection.close();
+});
 
 describe('Posts Endpoints', () => {
   it('should fail user is not authorized', async () => {
